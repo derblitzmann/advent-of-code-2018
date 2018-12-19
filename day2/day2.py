@@ -10,21 +10,34 @@ def letter_frequency(s):
             letter_dict[c] += 1
     return letter_dict
 
-def has_two_letters(s):
-    return 2 in letter_frequency(s).values()
+def has_two_letters(d):
+    return 2 in d.values()
 
-def has_three_letters(s):
-    return 3 in letter_frequency(s).values()
+def has_three_letters(d):
+    return 3 in d.values()
 
 def part1(ids):
     twos = 0
     threes = 0
     for _id in ids:
-        if has_two_letters(_id):
+        freqs = letter_frequency(_id)
+        if has_two_letters(freqs):
             twos += 1
-        if has_three_letters(_id):
+        if has_three_letters(freqs):
             threes += 1
     print('Checksum: {}'.format(twos*threes))
+
+def part2(ids):
+    for i in range(len(ids[0])):
+        d = {}
+        for _id in ids:
+            first_half = _id[:i]
+            second_half = _id[i+1:]
+            mod_id = first_half + second_half
+            if mod_id not in d:
+                d[mod_id] = True
+            else:
+                print(mod_id)
 
 
 if __name__ == '__main__':
@@ -35,4 +48,5 @@ if __name__ == '__main__':
     with open(sys.argv[1]) as f:
         data = f.readlines()
         part1(data)
+        part2(data)
 
